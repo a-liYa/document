@@ -39,4 +39,18 @@
   (6)如果是对象应用，如果equals方法中采取递归调用的比较方式，那么hashCode中同样采取递归调用hashCode的方式。否则需要为这个域计算一个范式，比如当这个域的值为null的时候，那么hashCode值为0
 
   (7)如果是数组，那么需要为每个元素当做单独的域来处理。如果你使用的是1.5及以上版本的JDK，那么没必要自己去重新遍历一遍数组，java.util.Arrays.hashCode方法包含了8种基本类型数组和引用数组的hashCode计算，算法同上，
+  
+示例代码:
+public int hashCode() {
+	int result = mNames.hashCode();
+	result = 31 * result + mSSID.hashCode();
+	result = 31 * result + mOSUServer.hashCode();
+	result = 31 * result + mOSUMethods.hashCode();
+	result = 31 * result + mIcons.hashCode();
+	result = 31 * result + (mOsuNai != null ? mOsuNai.hashCode() : 0);
+	result = 31 * result + mServiceDescriptions.hashCode();
+	return result;
+}
+
+// 31是个神奇的数字，任何数n*31都可以被jvm优化为(n<<5)-n，移位和减法的操作效率比乘法的操作效率高很多。
 ```
